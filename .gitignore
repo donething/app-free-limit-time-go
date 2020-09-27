@@ -1,0 +1,9 @@
+.idea/
+go.sum
+*.exe
+*.log
+config.json
+app-free-limit-time-go.exe
+app-free-limit-time-go
+main
+*.zip
