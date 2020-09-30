@@ -6,6 +6,11 @@ import (
 	"fmt"
 )
 
+const (
+	PlatAppstore  = "appstore"
+	PlatPlaystore = "playstore"
+)
+
 // 没有在网站上查找到指定的应用
 var ErrNotFound = fmt.Errorf("没有查找到应用")
 
