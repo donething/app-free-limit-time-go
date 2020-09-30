@@ -15,7 +15,7 @@ func Test_unmarshal(t *testing.T) {
 }
 
 func TestExec(t *testing.T) {
-	msg := `{"wxpush":{"appid":"xxx","secret":"xxx","touid":"xxx","tplid":"xxx"},"ids":{"as":[1137819437,1261944766],"ps":[]}}`
+	msg := `{"wxpush":{"appid":"xxx","secret":"xxx","touid":"xxx","tplid":"xxx"},"apps":{"1261944766":"cn","932747118":"us"}}`
 	event := TimerEvent{Message: msg}
 	str, err := Exec(event)
 	if err != nil {

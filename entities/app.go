@@ -6,7 +6,7 @@ import (
 	"fmt"
 )
 
-// 没有查找到应用
+// 没有在网站上查找到指定的应用
 var ErrNotFound = fmt.Errorf("没有查找到应用")
 
 // appstore 上的应用
@@ -15,6 +15,7 @@ var ErrNotFound = fmt.Errorf("没有查找到应用")
 // err := app.Fill()
 type AppAS struct {
 	TrackId        int64   `json:"trackId"`
+	Area           string  `json:"area"` // 此项是手动加的，表示地区
 	Name           string  `json:"trackName"`
 	Price          float32 `json:"price"`
 	Currency       string  `json:"currency"`
@@ -26,7 +27,8 @@ type AppAS struct {
 // 填充应用信息
 func (app *AppAS) Fill() error {
 	// 获取应用信息
-	queryUrl := fmt.Sprintf("http://itunes.apple.com/lookup?country=cn&id=%d", app.TrackId)
+	queryUrl := fmt.Sprintf("http://itunes.apple.com/lookup?country=%s&id=%d",
+		app.Area, app.TrackId)
 	bs, err := utils.Client.Get(queryUrl, nil)
 	if err != nil {
 		return err
@@ -43,6 +45,8 @@ func (app *AppAS) Fill() error {
 		return ErrNotFound
 	}
 	*app = payload.Results[0]
+	// 手动赋值地区
+	(*app).Area = app.Area
 	return nil
 }
 
