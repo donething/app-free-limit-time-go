@@ -1,12 +1,13 @@
 package entities
 
 import (
-	"app-free-limit-time-go/utils"
+	. "app-free-limit-time-go/client"
 	"encoding/json"
 	"fmt"
 )
 
 const (
+	// 应用的平台
 	PlatAppstore  = "appstore"
 	PlatPlaystore = "playstore"
 )
@@ -16,7 +17,7 @@ var ErrNotFound = fmt.Errorf("没有查找到应用")
 
 // appstore 上的应用
 // 根据 TrackId 获取应用信息：
-// app := AppAS{TrackId: 1261944766}
+// app := AppAS{TrackId: 1261944766, Area: "cn"}
 // err := app.Fill()
 type AppAS struct {
 	TrackId        int64   `json:"trackId"`
@@ -34,7 +35,7 @@ func (app *AppAS) Fill() error {
 	// 获取应用信息
 	queryUrl := fmt.Sprintf("http://itunes.apple.com/lookup?country=%s&id=%d",
 		app.Area, app.TrackId)
-	bs, err := utils.Client.Get(queryUrl, nil)
+	bs, err := Request.Get(queryUrl, nil)
 	if err != nil {
 		return err
 	}
@@ -57,7 +58,8 @@ func (app *AppAS) Fill() error {
 
 // playstore 上的应用
 type AppPS struct {
-	ID string
+	BID  string
+	Area string
 }
 
 func (app AppPS) Fill() error {
